@@ -71,4 +71,4 @@ df['Health Risk'] = list4
 rslt_ow = df.loc[(df['BMI'] > 24.9) & (df['BMI'] <= 29.9)]
 print(df)
 # Count of records with over weight
-print(len(rslt_ow))
+print('count of records with overweight:',len(rslt_ow))
