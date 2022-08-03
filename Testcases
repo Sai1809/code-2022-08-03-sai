@@ -1,0 +1,7 @@
+Test cases:
+
+1. Check input json has valid data
+2. Check if BMI calculated by program is not zero
+3. Check LOV's of BMI category,BMI Range and Health risk should be as per input lookup file
+4. Check count of overweight records are as expected
+
