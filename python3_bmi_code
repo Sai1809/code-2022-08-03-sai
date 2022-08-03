@@ -1,0 +1,74 @@
+# importing required packages
+import json
+import pandas as pd
+
+
+# calculating BMI
+def cal_bmi(mass, height):
+    bmi = mass / (height ** 2)
+    return round(bmi, 1)
+
+
+# Mapping BMI based on input table
+def cal(df, df2):
+    for j in range(0, 6):
+        for i in range(0, 7):
+            if df['BMI'][j] > df2['Min1'][i] and df['BMI'][j] <= df2['Max1'][i]:
+                t = df2['BMI Range'][i]
+                list2.append(t)
+                p = df2['BMI_Category'][i]
+                list3.append(p)
+                r = df2['Health Risk'][i]
+                list4.append(r)
+    return list2, list3, list4
+
+
+# input given
+json_raw = """[{"Gender": "Male", "HeightCm": 171, "WeightKg": 96 },
+{ "Gender": "Male", "HeightCm": 161, "WeightKg": 85 },
+{ "Gender": "Male", "HeightCm": 180, "WeightKg": 77 },
+{ "Gender": "Female", "HeightCm": 166, "WeightKg": 62},
+{"Gender": "Female", "HeightCm": 150, "WeightKg": 70},
+{"Gender": "Female", "HeightCm": 167, "WeightKg": 82}]"""
+
+# Created a dataframe from given mapping table with extra columns to handle dynamic scenarios
+
+df2 = {'BMI_Category': ['Underweight', 'Normal weight', 'Overweight', 'Moderately obese', 'Severely obese',
+                        'Very severely obese', 'incorrect daa'],
+       'BMI Range': ['18.4 and below', '18.5 - 24.9', '25 - 29.9', '30 - 34.9', '35 - 39.9', '40 and above', '0'],
+       'Health Risk': ['Malnutrition risk', 'Low Risk', 'Enhanced risk', 'Medium risk', 'High risk', 'Very high risk',
+                       'incorrect'],
+       'Min1': [0, 18.4, 24.9, 29.9, 34.9, 39.9, -1],
+       'Max1': [18.4, 24.9, 29.9, 34.9, 39.9, 10000, 0]
+       }
+
+# input Variables
+list1 = []
+list2 = []
+list3 = []
+list4 = []
+
+# loading file and performing Calculations
+data = json.loads(json_raw)
+for i in range(0, len(data)):
+    if (data[i]['HeightCm'] != 0):
+        s = cal_bmi(data[i]['WeightKg'], data[i]['HeightCm'] / 100.0)
+        list1.append(s)
+
+    else:
+        s = 0
+        list1.append(s)
+
+df = pd.DataFrame.from_dict(data)
+df['BMI'] = list1
+print(df)
+list2, list3, list4 = cal(df, df2)
+df['BMI Range'] = list2
+df['BMI Category'] = list3
+df['Health Risk'] = list4
+
+# Dataframe with only over weight
+rslt_ow = df.loc[(df['BMI'] > 24.9) & (df['BMI'] <= 29.9)]
+print(df)
+# Count of records with over weight
+print(len(rslt_ow))
