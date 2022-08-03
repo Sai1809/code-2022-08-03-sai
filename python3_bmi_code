@@ -51,7 +51,7 @@ list4 = []
 # loading file and performing Calculations
 data = json.loads(json_raw)
 for i in range(0, len(data)):
-    if (data[i]['HeightCm'] != 0):
+    if (data[i]['HeightCm'] > 0):
         s = cal_bmi(data[i]['WeightKg'], data[i]['HeightCm'] / 100.0)
         list1.append(s)
 
