@@ -3,7 +3,7 @@
 python 3 code to calculate BMI and classify people 
 
 #Input file 
-1. json file
+1. json input
 2. mapping table(created as dataframe)
 
 #Packages installed and imported
